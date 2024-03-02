@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+// App.js
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    // Example: Making a GET request to retrieve all text files
+    axios.get('http://localhost:3002/api/get-all-text-files')
+      .then(response => {
+        setMessage(response.data.textFiles.join(', '));
+      })
+      .catch(error => {
+        console.error(error);
+        setMessage('Error fetching text files.');
+      });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Node.js File System</h1>
+      <p>{message}</p>
     </div>
   );
 }
